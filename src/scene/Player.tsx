@@ -10,6 +10,7 @@ import {
   FLAP_SPEED,
   GLIDE_GRAVITY_SCALE,
   GRAVITY,
+  HOLE_RADIUS,
   JUMP_SPEED,
   MAX_FLAPS,
   MOVE_SPEED,
@@ -24,7 +25,7 @@ import {
   WORLD_RADIUS,
 } from '../config'
 import { getCharacter, type Character } from '../data/characters'
-import { BOXES, TREES } from '../data/world'
+import { BOXES, HOLE_POSITION, TOTAL_COINS, TREES } from '../data/world'
 import {
   isWithinArc,
   moveOnSphere,
@@ -193,6 +194,18 @@ export function Player() {
         if (!tangentToward(player.pos, tree.pos, _dir)) continue
         if (_dir.dot(player.forward) > Math.cos(FIRE_CONE)) game.burnTree(tree.id)
       }
+    }
+
+    // --- the hole -----------------------------------------------------------
+    // Only there once every cookie is found, and you have to be on the ground —
+    // a pterosaur gliding over it shouldn't get sucked in.
+    if (
+      game.collected.size >= TOTAL_COINS &&
+      !jump.airborne &&
+      isWithinArc(player.pos, HOLE_POSITION, HOLE_RADIUS * 0.8, WORLD_RADIUS)
+    ) {
+      game.startFinale()
+      return
     }
 
     // --- vertical -----------------------------------------------------------

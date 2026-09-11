@@ -7,7 +7,7 @@ export interface Dialogue {
   line: number
 }
 
-export type Phase = 'select' | 'playing'
+export type Phase = 'select' | 'playing' | 'finale'
 
 const STORAGE_KEY = 'dinogame.progress.v1'
 
@@ -68,6 +68,8 @@ interface GameState {
   cycleCharacter: (step: number) => void
   startGame: () => void
   returnToSelect: () => void
+  /** Down the hole: hands control to the party scene. */
+  startFinale: () => void
   resetProgress: () => void
 
   collectCoin: (id: string) => void
@@ -114,6 +116,8 @@ export const useGame = create<GameState>((set, get) => ({
     }),
 
   returnToSelect: () => set({ phase: 'select', dialogue: null, nearbyNpc: null }),
+
+  startFinale: () => set({ phase: 'finale', dialogue: null, nearbyNpc: null }),
 
   resetProgress: () => {
     saveProgress(new Set())

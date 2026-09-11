@@ -62,6 +62,15 @@ export const FIRE_ARC = 4.5
 /** Half-angle of the cone, in radians. */
 export const FIRE_CONE = 0.62
 
+// --- the finale -------------------------------------------------------------
+
+/** Arc radius of the hole. Step inside it (on the ground) and down you go. */
+export const HOLE_RADIUS = 1.1
+/** How long the fall through the dark lasts before the party is lit. */
+export const FALL_SECONDS = 2.2
+/** The birthday banner appears this long after entering the hole. */
+export const BANNER_AT = 3.4
+
 // --- terrain ----------------------------------------------------------------
 
 export const BOX_COUNT = 10

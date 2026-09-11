@@ -4,10 +4,12 @@ import { PCFShadowMap } from 'three'
 import { resetInput, useInputListeners } from './input/useInput'
 import { Scene } from './scene/Scene'
 import { CharacterSelect } from './ui/CharacterSelect'
+import { Finale } from './ui/Finale'
 import { DialogueBox } from './ui/DialogueBox'
 import { Hud } from './ui/Hud'
 import { TouchControls } from './ui/TouchControls'
 import { useGame } from './store'
+import './audio/bindings'
 
 /**
  * The one place the 3D world and the DOM UI meet. The canvas owns the
@@ -21,7 +23,7 @@ export default function App() {
   // Effects run after the event handler, so clearing here drops that stale
   // Enter/Space before the world can read it as an interact.
   useEffect(() => {
-    if (phase === 'playing') resetInput()
+    if (phase !== 'select') resetInput()
   }, [phase])
 
   // CSS shows this only on a portrait touch device; it's inert otherwise.
@@ -31,6 +33,8 @@ export default function App() {
       <p>Turn your tablet sideways to play</p>
     </div>
   )
+
+  if (phase === 'finale') return <Finale />
 
   if (phase === 'select')
     return (

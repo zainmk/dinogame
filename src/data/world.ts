@@ -47,6 +47,15 @@ const rng = mulberry32(WORLD_SEED)
 /** Where the player starts. Kept clear so nothing spawns on top of them. */
 const SPAWN = new Vector3(0, 1, 0)
 
+/**
+ * Where the hole opens once every cookie is found. The centre of the tilted
+ * cube's top face: straight ahead of the spawn and equally far from the four
+ * nearest NPCs, so it sits in the middle of the family rather than off in a
+ * corner. Kept clear of terrain from the start, even though it only appears at
+ * the end.
+ */
+export const HOLE_POSITION = new Vector3(0, 0.4226, -0.9063).normalize()
+
 const _t = new Vector3()
 
 /** A point a short arc away from `center`, in a random direction. */
@@ -77,7 +86,11 @@ function scatter(count: number, minArc: number, taken: Vector3[]): Vector3[] {
 }
 
 // Everything keeps clear of the spawn point and of the NPCs.
-const occupied: Vector3[] = [SPAWN.clone(), ...NPCS.map((n) => n.position.clone())]
+const occupied: Vector3[] = [
+  SPAWN.clone(),
+  HOLE_POSITION.clone(),
+  ...NPCS.map((n) => n.position.clone()),
+]
 
 /**
  * Box heights, cycled rather than random so the mix is guaranteed. The tall ones

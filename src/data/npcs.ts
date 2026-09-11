@@ -2,17 +2,21 @@ import { Vector3 } from 'three'
 import type { CatLook } from '../characters/Cat'
 import type { VillagerLook } from '../characters/Villager'
 
+/** How an NPC is drawn: a person, or a cat. */
+export type NpcLook = ({ kind: 'villager' } & VillagerLook) | ({ kind: 'cat' } & CatLook)
+
 /**
- * How an NPC is drawn.
+ * Eight evenly spaced spots: the corners of a cube, so every NPC is the same
+ * distance (about 12 units) from each of its three nearest neighbours.
  *
- * 'blob' is the original abstract capsule-and-sphere; 'villager' is a person.
- * Keeping both means adding people doesn't force a redesign of the ones already
- * standing on the planet.
+ * The cube is tilted 65° about X so one edge faces the spawn point. That puts
+ * two corners about 7 units ahead-left and ahead-right of where you start —
+ * inside notice range, outside talk range — and spreads the rest round the
+ * planet, with the far pair almost exactly opposite the spawn.
  */
-export type NpcLook =
-  | { kind: 'blob'; color: string }
-  | ({ kind: 'villager' } & VillagerLook)
-  | ({ kind: 'cat' } & CatLook)
+const TILT = new Vector3(1, 0, 0)
+const corner = (x: 1 | -1, y: 1 | -1, z: 1 | -1) =>
+  new Vector3(x, y, z).applyAxisAngle(TILT, (-65 * Math.PI) / 180).normalize()
 
 export interface Npc {
   id: string
@@ -30,47 +34,11 @@ export interface Npc {
 
 export const NPCS: Npc[] = [
   {
-    id: 'sage',
-    name: 'Trilo the Sage',
-    accent: '#7c5cff',
-    position: new Vector3(0.35, 0.55, 0.75).normalize(),
-    look: { kind: 'blob', color: '#7c5cff' },
-    lines: [
-      'Ah — a traveller! Few walk the whole way round.',
-      'The world is a ball, you know. Keep running in one direction and you will meet yourself coming back.',
-      'The gold coins? Scattered by the last dino who tried it. Do help yourself.',
-    ],
-  },
-  {
-    id: 'gus',
-    name: 'Gus',
-    accent: '#ff8c42',
-    position: new Vector3(-0.8, -0.2, 0.55).normalize(),
-    look: { kind: 'blob', color: '#ff8c42' },
-    lines: [
-      "Don't mind me. I'm just standing here being upside down relative to somebody.",
-      'It all evens out on a planet this size.',
-    ],
-  },
-  {
-    id: 'pip',
-    name: 'Pip',
-    accent: '#3ecf8e',
-    position: new Vector3(0.1, -0.9, -0.42).normalize(),
-    look: { kind: 'blob', color: '#3ecf8e' },
-    lines: [
-      'You came all the way to the south pole? For me?',
-      'I have nothing to give you. But I am delighted.',
-      'Go on, there are coins back north.',
-    ],
-  },
-  {
     id: 'ibi',
     name: 'Ibrahim',
     accent: '#48c98d',
-    // Close to the spawn point and just off the starting heading, so he's the
-    // first person you meet.
-    position: new Vector3(0.18, 0.52, -0.83).normalize(),
+    // Ahead and to the right of the spawn — one of the two greeters.
+    position: corner(1, 1, 1),
     look: {
       kind: 'villager',
       build: 'child',
@@ -98,9 +66,8 @@ export const NPCS: Npc[] = [
     id: 'thathi',
     name: 'Thathi',
     accent: '#8fbde6',
-    // Across the starting path from Ibrahim, a little further along — so the
-    // two of them are the first people you meet, one on each side.
-    position: new Vector3(-0.2, 0.45, -0.85).normalize(),
+    // Ahead and to the left of the spawn — the other greeter.
+    position: corner(-1, 1, 1),
     look: {
       kind: 'villager',
       build: 'adult',
@@ -131,9 +98,8 @@ export const NPCS: Npc[] = [
     id: 'ayan',
     name: 'Ayan',
     accent: '#f26a1f',
-    // Further down the starting path than the other two, so you meet Ibrahim
-    // and Thathi first and then him.
-    position: new Vector3(0.1, 0.22, -0.97).normalize(),
+    // Straight on past Ibrahim, just over the horizon.
+    position: corner(1, 1, -1),
     look: {
       kind: 'villager',
       build: 'youth',
@@ -158,8 +124,8 @@ export const NPCS: Npc[] = [
     id: 'neko',
     name: 'Neko',
     accent: '#b8d24a',
-    // Last of the welcoming party along the starting path.
-    position: new Vector3(0.05, -0.15, -0.99).normalize(),
+    // Behind the spawn, to the right.
+    position: corner(1, -1, 1),
     look: {
       kind: 'cat',
       coat: '#8f7154',
@@ -174,8 +140,8 @@ export const NPCS: Npc[] = [
     id: 'rafhy',
     name: 'Rafhy Bhai',
     accent: '#8a2a33',
-    // Off on its own, well clear of the others' talk radius.
-    position: new Vector3(0.42, -0.4, -0.82).normalize(),
+    // Behind the spawn, to the left.
+    position: corner(-1, -1, 1),
     scale: 1.12,
     look: {
       kind: 'villager',
@@ -201,8 +167,8 @@ export const NPCS: Npc[] = [
     id: 'abu',
     name: 'Abu / Dad',
     accent: '#e2734f',
-    // Further along the path again, spaced clear of Rafhy's talk radius.
-    position: new Vector3(0.55, -0.58, -0.6).normalize(),
+    // The far side of the planet. Mumma is on the next corner over.
+    position: corner(1, -1, -1),
     look: {
       kind: 'villager',
       build: 'adult',
@@ -231,8 +197,8 @@ export const NPCS: Npc[] = [
     id: 'nashra',
     name: 'Nashra Bhaji',
     accent: '#b9bcc6',
-    // On the far side of the path from Ibrahim, past Thathi.
-    position: new Vector3(-0.45, 0.2, -0.87).normalize(),
+    // Straight on past Thathi, just over the horizon.
+    position: corner(-1, 1, -1),
     // Youth proportions brought down to Ibrahim's height: a teenager, not a
     // small child — but exactly as tall as him, as asked.
     scale: 0.9,
@@ -263,8 +229,8 @@ export const NPCS: Npc[] = [
     id: 'mumma',
     name: 'Mumma / Mom',
     accent: '#d8c9a8',
-    // Beside Abu — the two of them together, a little apart from the kids.
-    position: new Vector3(0.82, -0.3, -0.48).normalize(),
+    // The far side of the planet, on the corner next to Abu.
+    position: corner(-1, -1, -1),
     look: {
       kind: 'villager',
       build: 'adult',

@@ -54,28 +54,6 @@ export function Npcs() {
   )
 }
 
-/** The original abstract NPC: a capsule, a head, and two eyes. */
-function Blob({ color }: { color: string }) {
-  return (
-    <group>
-      <mesh castShadow position={[0, 0.62, 0]}>
-        <capsuleGeometry args={[0.34, 0.5, 4, 12]} />
-        <meshStandardMaterial color={color} flatShading roughness={0.7} />
-      </mesh>
-      <mesh castShadow position={[0, 1.32, 0]}>
-        <sphereGeometry args={[0.3, 16, 12]} />
-        <meshStandardMaterial color={color} roughness={0.6} />
-      </mesh>
-      {[0.13, -0.13].map((x) => (
-        <mesh key={x} position={[x, 1.38, -0.24]}>
-          <sphereGeometry args={[0.055, 10, 10]} />
-          <meshStandardMaterial color="#14181f" />
-        </mesh>
-      ))}
-    </group>
-  )
-}
-
 /** How far a phone-holder's head tips down towards the screen, in radians. */
 const PHONE_GAZE = -0.5
 
@@ -124,12 +102,10 @@ function NpcBody({ npc }: { npc: Npc }) {
   return (
     <group ref={group}>
       <group ref={inner} scale={npc.scale ?? 1}>
-        {npc.look.kind === 'villager' ? (
-          <Villager look={npc.look} headRef={head} />
-        ) : npc.look.kind === 'cat' ? (
+        {npc.look.kind === 'cat' ? (
           <Cat look={npc.look} />
         ) : (
-          <Blob color={npc.look.color} />
+          <Villager look={npc.look} headRef={head} />
         )}
       </group>
     </group>

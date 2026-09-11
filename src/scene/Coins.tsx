@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Instance, Instances } from '@react-three/drei'
 import { Quaternion, Vector3 } from 'three'
@@ -8,11 +8,12 @@ import { COINS, type Coin } from '../data/world'
 import { isWithinArc } from '../math/sphere'
 import { jump, player } from '../state/player'
 import { useGame } from '../store'
+import { makeCookieGeometry } from './cookieGeometry'
 
 const UP = new Vector3(0, 1, 0)
 const X_AXIS = new Vector3(1, 0, 0)
 
-/** Stands the cylinder on its edge, so it reads as a coin rather than a puck. */
+/** Stands the disc on its edge, so it spins like a coin rather than lying flat. */
 const onEdge = new Quaternion().setFromAxisAngle(X_AXIS, Math.PI / 2)
 
 const _surface = new Quaternion()
@@ -41,10 +42,14 @@ export function Coins() {
       : burnt.has(c.hiddenUntil.id)
   })
 
+  // Built once; every cookie is an instance of this one mesh.
+  const cookie = useMemo(() => makeCookieGeometry(COIN_RADIUS * 1.15, 0.09), [])
+
   return (
     <Instances limit={COINS.length} castShadow>
-      <cylinderGeometry args={[COIN_RADIUS, COIN_RADIUS, 0.07, 16]} />
-      <meshStandardMaterial color="#ffc93c" roughness={0.25} metalness={0.7} emissive="#4a3200" />
+      <primitive object={cookie} attach="geometry" />
+      {/* vertexColors: the dough and the chips are painted into the geometry. */}
+      <meshStandardMaterial vertexColors roughness={0.92} metalness={0} flatShading />
       {visible.map((coin) => (
         <CoinInstance key={coin.id} coin={coin} />
       ))}

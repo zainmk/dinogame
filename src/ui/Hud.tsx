@@ -3,6 +3,8 @@ import { NPC_BY_ID } from '../data/npcs'
 import { TOTAL_COINS } from '../data/world'
 import { useGame } from '../store'
 import { useDevice } from '../input/device'
+import { PartyGuide } from './PartyGuide'
+import { MuteButton } from './MuteButton'
 
 /**
  * Plain DOM over the canvas, not drei's <Html>. The score and the prompt are
@@ -26,7 +28,7 @@ export function Hud() {
     <>
       <div className="hud-score">
         <span className="hud-score__value">{found}</span>
-        <span className="hud-score__label">of {TOTAL_COINS} coins</span>
+        <span className="hud-score__label">of {TOTAL_COINS} cookies</span>
       </div>
 
       {/* On touch the controls are on screen; naming keys would only confuse. */}
@@ -43,9 +45,12 @@ export function Hud() {
       )}
 
       {/* Progress is shared, so swapping dinosaur is a core move, not a restart. */}
-      <button className="hud-swap" onClick={returnToSelect}>
-        Swap dino
-      </button>
+      <div className="hud-corner">
+        <MuteButton />
+        <button className="hud-swap" onClick={returnToSelect}>
+          Swap dino
+        </button>
+      </div>
 
       {/* Space becomes "talk" while an NPC is in range, so it's shown as such. */}
       {npc && !dialogue && (
@@ -62,7 +67,7 @@ export function Hud() {
         </div>
       )}
 
-      {done && <div className="hud-done">Every coin found. All three of them earned it.</div>}
+      {done && <PartyGuide />}
     </>
   )
 }

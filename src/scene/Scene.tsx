@@ -2,6 +2,7 @@ import { WORLD_RADIUS } from '../config'
 import { Boxes } from './Boxes'
 import { Coins } from './Coins'
 import { FollowCamera } from './FollowCamera'
+import { Hole } from './Hole'
 import { Npcs } from './Npcs'
 import { Planet } from './Planet'
 import { Player } from './Player'
@@ -28,6 +29,7 @@ export function Scene() {
       <Sun />
       <FollowCamera />
       <Planet />
+      <Hole />
       <Boxes />
       <Trees />
       <Coins />

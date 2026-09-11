@@ -333,10 +333,16 @@ kbd {
 
 /* --- HUD additions --------------------------------------------------------- */
 
-.hud-swap {
+.hud-corner {
   position: absolute;
   top: 20px;
   right: 24px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hud-swap {
   padding: 8px 14px;
   border: 1px solid var(--edge);
   border-radius: 999px;
@@ -567,4 +573,161 @@ kbd {
   to {
     transform: rotate(-90deg);
   }
+}
+
+
+/* --- The party guide -------------------------------------------------------- */
+
+.guide {
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px 10px 14px;
+  border: 1px solid rgba(255, 179, 71, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 179, 71, 0.14);
+  color: #ffd08a;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+  animation: rise 220ms ease-out;
+}
+
+.guide__arrow {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 22px;
+  color: #ffb347;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+@media (pointer: coarse) {
+  .guide {
+    top: 64px;
+  }
+}
+
+/* --- The finale ------------------------------------------------------------- */
+
+.finale {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #05070d;
+}
+
+.finale__ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: max(4vh, env(safe-area-inset-top));
+  pointer-events: none;
+}
+
+.finale__done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 34px 16px;
+  border: 1px solid rgba(255, 216, 92, 0.35);
+  border-radius: 20px;
+  /* Light enough that the party stays visible through and around it. */
+  background: rgba(5, 7, 13, 0.5);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  animation: rise-in 700ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  pointer-events: auto;
+  text-align: center;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.finale__cake {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.finale__title {
+  margin: 0;
+  font-size: min(7vw, 50px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #ffd85c, #ff9a2e, #ff5c8a, #c48cff, #5cc8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.finale__sub {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+.finale__back {
+  margin-top: 6px;
+  padding: 9px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.finale__back:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+
+/* --- Mute ------------------------------------------------------------------ */
+
+.mute {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+  background: var(--panel);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(6px);
+  transition: background 140ms ease;
+}
+
+.mute:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.select__corner,
+.finale__corner {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  pointer-events: auto;
+  z-index: 2;
 }

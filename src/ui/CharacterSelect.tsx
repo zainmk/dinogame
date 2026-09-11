@@ -6,6 +6,8 @@ import { CHARACTERS, getCharacter, type CharacterId } from '../data/characters'
 import { PALETTE } from '../characters/rig'
 import { useGame } from '../store'
 import { TOTAL_COINS } from '../data/world'
+import { unlock } from '../audio/audio'
+import { MuteButton } from './MuteButton'
 
 /** The chosen dinosaur, turning slowly on a display stand. */
 function Turntable({ id }: { id: CharacterId }) {
@@ -87,6 +89,7 @@ export function CharacterSelect() {
       else if (e.code === 'ArrowRight' || e.code === 'KeyD') cycleCharacter(1)
       else if (e.code === 'Enter' || e.code === 'Space' || e.code === 'KeyE') {
         e.preventDefault()
+        unlock()
         startGame()
       }
     }
@@ -105,12 +108,15 @@ export function CharacterSelect() {
       </Canvas>
 
       <div className="select__ui">
+        <div className="select__corner">
+          <MuteButton />
+        </div>
         <header className="select__head">
-          <p className="select__eyebrow">Fierce Dinosaur · 3 in 1</p>
-          <h1 className="select__title">Choose your dino</h1>
+          <p className="select__eyebrow">Choose your dino</p>
+          <h1 className="select__title">Happy 10th Birthday Shahir!</h1>
           {/* Progress is shared across all three, so it belongs above the choice. */}
           <p className="select__progress">
-            <strong>{found}</strong> of {TOTAL_COINS} coins · each dino reaches coins the
+            <strong>{found}</strong> of {TOTAL_COINS} cookies · each dino reaches cookies the
             others cannot
           </p>
         </header>
@@ -153,7 +159,14 @@ export function CharacterSelect() {
           ))}
         </div>
 
-        <button className="select__start" onClick={startGame}>
+        <button
+          className="select__start"
+          onClick={() => {
+            // A click is the gesture the browser needs before it will make a sound.
+            unlock()
+            startGame()
+          }}
+        >
           Start · <kbd>Enter</kbd>
         </button>
 

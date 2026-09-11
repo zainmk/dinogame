@@ -277,6 +277,30 @@ Each phase is independently runnable. Stop and play at every one.
 >   NPCs closer than 2×TALK_ARC form "nearest wins" zones, which is fine; closer
 >   than TALK_ARC means standing beside one can open the other — keep them apart.
 >
+> - The three placeholder NPCs are gone. The eight family characters sit on the
+>   corners of a cube — every one exactly 12.3 units from its three nearest
+>   neighbours — tilted so two of them stand 7 units ahead of the spawn as
+>   greeters. Terrain scatter keeps clear of NPC positions, so moving them
+>   reshuffles the crates, trees and coins.
+>
+> - The finale. Once every cookie is found a hole opens at the centre of the
+>   family (the tilted cube's top face, kept clear of terrain from the start) and
+>   the HUD shows an arrow that tracks it. Stepping in on foot switches `phase`
+>   to `'finale'`: a separate canvas where the chosen dinosaur tumbles down in
+>   the dark, lands as the lights come up on a table, a cake, the other two
+>   dinosaurs and every NPC dancing, then 3-2-1 and the birthday message. The
+>   arrow rotates every frame via a rAF writing straight to the DOM — never
+>   through React state.
+>
+> - Sound, with no audio files: everything is synthesised with the Web Audio
+>   API in `src/audio/audio.ts` — a two-note bloop on pickup, Animalese-style
+>   gibberish for dialogue (one tone per letter, pitched per character, a mew
+>   for the cat), filtered-noise bangs for the fireworks, and Happy Birthday
+>   (public domain) as a note list. It hooks onto store events by subscription
+>   in `bindings.ts`, so no game code knows audio exists. The context is created
+>   on the first click/tap/key, as browsers require, and there's a persisted
+>   mute button on every screen.
+>
 > **The rig convention** is the load-bearing idea in the character system: a
 > model is any group facing -Z with feet at y=0, which may *optionally* name
 > child groups `legL`/`legR`, `legFL`/`legFR`, `wingL`/`wingR`. `Player` animates

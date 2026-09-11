@@ -43,7 +43,7 @@ export const CHARACTERS: Character[] = [
   {
     id: 'raptor',
     name: 'Velociraptor',
-    tagline: 'Breathes fire. Burn the trees to shake their coins loose.',
+    tagline: 'Breathes fire. Burn the trees to shake their cookies loose.',
     accent: '#d13a2a',
     Model: Velociraptor,
     moveScale: 1.15,
