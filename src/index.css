@@ -1,0 +1,570 @@
+:root {
+  color-scheme: dark;
+  --ink: #f2f5ff;
+  --panel: rgba(14, 20, 36, 0.82);
+  --edge: rgba(255, 255, 255, 0.14);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  /* Mobile browsers shrink the viewport as their toolbars appear; dvh tracks it. */
+  height: 100dvh;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #0e1424;
+  color: var(--ink);
+  /* No pull-to-refresh, no rubber-banding, no long-press callouts. This is a game. */
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+canvas {
+  display: block;
+  touch-action: none;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0.1em 0.35em;
+  border: 1px solid var(--edge);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  font: inherit;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+/* --- HUD ------------------------------------------------------------------ */
+
+.hud-score,
+.hud-help,
+.hud-prompt,
+.dialogue {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hud-score {
+  top: 20px;
+  left: 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.hud-score__value {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffc93c;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hud-score__label {
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.hud-help {
+  bottom: 18px;
+  left: 24px;
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.hud-prompt {
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 9px 16px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  animation: rise 160ms ease-out;
+}
+
+/* --- Dialogue ------------------------------------------------------------- */
+
+.dialogue {
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100% - 48px));
+  padding: 18px 22px 16px;
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  cursor: pointer;
+  animation: rise 180ms ease-out;
+}
+
+.dialogue__name {
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dialogue__line {
+  margin: 0 0 12px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.dialogue__hint {
+  font-size: 12px;
+  text-align: right;
+  opacity: 0.55;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* --- Character select ------------------------------------------------------ */
+
+.select {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.select__canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.select__ui {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 34px 24px 30px;
+  pointer-events: none;
+  /* Scrim, so the panel text never sits directly on the model. */
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 16, 32, 0.55) 0%,
+    rgba(11, 16, 32, 0) 22%,
+    rgba(11, 16, 32, 0) 44%,
+    rgba(11, 16, 32, 0.82) 64%,
+    rgba(11, 16, 32, 0.96) 100%
+  );
+}
+
+.select__head {
+  text-align: center;
+}
+
+.select__eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e0902e;
+}
+
+.select__title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Pushes the panel to the bottom, leaving the turntable visible in the gap. */
+.select__spacer {
+  flex: 1;
+}
+
+.select__plate {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.select__name {
+  min-width: 320px;
+  text-align: center;
+}
+
+.select__name h2 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.select__name p {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.62;
+}
+
+.select__arrow {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+.select__arrow:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: scale(1.06);
+}
+
+.select__cards {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.select__card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px 11px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(8px);
+  transition: border-color 140ms ease, transform 140ms ease, background 140ms ease;
+}
+
+.select__card:hover {
+  transform: translateY(-2px);
+}
+
+.select__card.is-active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, var(--panel));
+}
+
+.select__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+}
+
+.select__index {
+  font-size: 11px;
+  opacity: 0.4;
+}
+
+.select__start {
+  padding: 13px 34px;
+  border: none;
+  border-radius: 999px;
+  background: #e0902e;
+  color: #1a1206;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 10px 30px rgba(224, 144, 46, 0.3);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.select__start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(224, 144, 46, 0.42);
+}
+
+.select__start kbd {
+  border-color: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.select__hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  opacity: 0.45;
+}
+
+/* --- HUD additions --------------------------------------------------------- */
+
+.hud-swap {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  padding: 8px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  pointer-events: auto;
+  backdrop-filter: blur(6px);
+  transition: background 140ms ease;
+}
+
+.hud-swap:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.hud-done {
+  position: absolute;
+  top: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 201, 60, 0.5);
+  border-radius: 999px;
+  background: rgba(255, 201, 60, 0.14);
+  color: #ffc93c;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+.select__progress {
+  margin: 10px 0 0;
+  font-size: 13px;
+  opacity: 0.62;
+}
+
+.select__progress strong {
+  color: #ffc93c;
+  font-size: 15px;
+}
+
+.select__reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0.9;
+}
+
+
+/* --- Touch controls -------------------------------------------------------- */
+
+.touch {
+  position: absolute;
+  inset: 0;
+  /* The layer itself lets taps through to the HUD buttons; only the zones catch. */
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Each half of the lower screen is a catchment area for one thumb. */
+.touch__zone {
+  position: absolute;
+  bottom: 0;
+  height: 62%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.touch__zone--left {
+  left: 0;
+  width: 50%;
+}
+
+.touch__zone--right {
+  right: 0;
+  width: 50%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 max(28px, env(safe-area-inset-right)) max(34px, env(safe-area-inset-bottom)) 0;
+}
+
+/*
+ * Rests bottom-left; while a thumb is down it jumps to wherever the thumb landed.
+ * Fixed, not absolute: the active position comes from clientX/Y, which are
+ * viewport coordinates, and the zone this sits in starts partway down the screen.
+ */
+.touch__stick {
+  position: fixed;
+  left: max(96px, calc(env(safe-area-inset-left) + 78px));
+  top: auto;
+  bottom: max(96px, calc(env(safe-area-inset-bottom) + 78px));
+  width: 124px;
+  height: 124px;
+  margin: -62px 0 0 -62px;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(14, 20, 36, 0.35);
+  backdrop-filter: blur(4px);
+  opacity: 0.55;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+.touch__stick.is-active {
+  bottom: auto;
+  opacity: 0.95;
+  transition: none;
+}
+
+.touch__knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 54px;
+  height: 54px;
+  margin: -27px 0 0 -27px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+.touch__action {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #e0902e;
+  box-shadow: 0 8px 26px rgba(224, 144, 46, 0.4);
+  opacity: 0.88;
+  cursor: pointer;
+  touch-action: none;
+  transition: transform 80ms ease, opacity 80ms ease;
+}
+
+.touch__action.is-pressed {
+  transform: scale(0.92);
+  opacity: 1;
+}
+
+.touch__action-ring {
+  position: absolute;
+  inset: 12px;
+  border: 3px solid rgba(26, 18, 6, 0.35);
+  border-radius: 50%;
+}
+
+/* The little orange dot the HUD uses to mean "the action button" on touch. */
+.hud-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e0902e;
+  vertical-align: -1px;
+}
+
+/* On a tablet the HUD rides higher, out from under the thumbs. */
+@media (pointer: coarse) {
+  .hud-help {
+    left: auto;
+    right: 24px;
+    bottom: auto;
+    top: 64px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  .hud-prompt {
+    bottom: auto;
+    top: 100px;
+    font-size: 15px;
+  }
+
+  .dialogue {
+    bottom: 150px;
+  }
+}
+
+/* The layout assumes wide. Ask for it rather than rendering a squashed mess. */
+.rotate {
+  display: none;
+}
+
+@media (pointer: coarse) and (orientation: portrait) {
+  .rotate {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: #0b1020;
+    color: var(--ink);
+    text-align: center;
+    padding: 32px;
+  }
+
+  .rotate__icon {
+    font-size: 52px;
+    animation: tilt 1.6s ease-in-out infinite alternate;
+  }
+
+  .rotate p {
+    margin: 0;
+    font-size: 17px;
+    opacity: 0.8;
+  }
+}
+
+@keyframes tilt {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-90deg);
+  }
+}
