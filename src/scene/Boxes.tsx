@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { Group } from 'three'
-import { BOX_RADIUS, WORLD_RADIUS } from '../config'
+import { BOX_RADIUS, CRATE_TIER, WORLD_RADIUS } from '../config'
 import { BOXES, type Box } from '../data/world'
 import { anyTangent, createSurfaceState, orientToSurface } from '../math/sphere'
 import { useGame } from '../store'
@@ -45,7 +45,8 @@ function Crate({ box }: { box: Box }) {
 
   // Stack of crates making up the column, so a tall box reads as tall rather
   // than as one enormous cube.
-  const tiers = Math.max(1, Math.round(box.height / 1.15))
+  // Never fewer than two, whatever the height says.
+  const tiers = Math.max(2, Math.round(box.height / CRATE_TIER))
   const tierHeight = box.height / tiers
 
   return (

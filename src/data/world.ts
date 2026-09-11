@@ -3,6 +3,7 @@ import {
   BOX_COUNT,
   BOX_RADIUS,
   COIN_HOVER,
+  CRATE_TIER,
   GROUND_COIN_COUNT,
   TREE_COUNT,
   WORLD_RADIUS,
@@ -93,16 +94,17 @@ const occupied: Vector3[] = [
 ]
 
 /**
- * Box heights, cycled rather than random so the mix is guaranteed. The tall ones
- * are out of every jump in the game — only the pterosaur's flight reaches them.
+ * Crate stacks of two, three and four blocks, cycled rather than random so the
+ * mix is guaranteed. None is reachable without flying; two blocks is the
+ * minimum so that's visibly true.
  */
-const HEIGHTS = [1.5, 2.4, 3.4]
+const TIERS = [2, 3, 4]
 const TINTS = ['#b9762f', '#a9682a', '#c08238']
 
 export const BOXES: Box[] = scatter(BOX_COUNT, 5, occupied).map((pos, i) => ({
   id: `box-${i}`,
   pos,
-  height: HEIGHTS[i % HEIGHTS.length],
+  height: TIERS[i % TIERS.length] * CRATE_TIER,
   tint: TINTS[i % TINTS.length],
 }))
 

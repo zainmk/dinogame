@@ -79,6 +79,12 @@ export const GROUND_COIN_COUNT = 20
 /** Footprint radius of a box, as an arc length on the surface. */
 export const BOX_RADIUS = 0.85
 /**
+ * Height of one crate in a stack. Every crate is at least two of these: a
+ * single block looks like something you could hop onto, and nothing in the
+ * game can — only the pterosaur's flight reaches a crate top.
+ */
+export const CRATE_TIER = 1.0
+/**
  * Trunk radius of a living tree. Trees are solid because playtesting showed
  * the player walking inside the foliage, which hides the character completely
  * from a camera sitting right behind them. Burnt stumps are not solid.

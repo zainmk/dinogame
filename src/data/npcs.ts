@@ -57,14 +57,14 @@ export const NPCS: Npc[] = [
       },
     },
     lines: [
-      'I WANT TO PLAY JACKPOT!',
-      'where is mama?',
-      'can i play on iphone? I want to play Roblox!',
+      'I want to play JACKPOT!',
+      'Where is Mama?',
+      'Can I play on the iPhone? I want to play Roblox!',
     ],
   },
   {
     id: 'thathi',
-    name: 'Thathi',
+    name: 'Thathi (Grandma)',
     accent: '#8fbde6',
     // Ahead and to the left of the spawn — the other greeter.
     position: corner(-1, 1, 1),
@@ -88,10 +88,10 @@ export const NPCS: Npc[] = [
       brows: 'level',
     },
     lines: [
-      'Assalamualaikum Shahir, Happy Birthday!',
-      'Can you get me some water',
+      'Assalamualaikum, Shahir. Happy birthday!',
+      'Can you get me some water?',
       'Have you seen my phone?',
-      'Pick up all your cookies',
+      'Now go and pick up all your cookies.',
     ],
   },
   {
@@ -115,9 +115,9 @@ export const NPCS: Npc[] = [
       brows: 'level',
     },
     lines: [
-      'happy birthday, shahir bhai!',
-      'where is my toy shahir!',
-      'can i have some cookies too!',
+      'Happy birthday, Shahir bhai!',
+      'Where is my toy, Shahir?',
+      'Can I have some cookies too?',
     ],
   },
   {
@@ -134,7 +134,7 @@ export const NPCS: Npc[] = [
       eyes: '#b8d24a',
       pink: '#d49a9e',
     },
-    lines: ['Meow!', 'meow meow', 'MEEE... HAPPY BIRTHDAY SHAHIR!....OWWW'],
+    lines: ['Meow!', 'Meow meow.', 'Mee... HAPPY BIRTHDAY, SHAHIR! ...ow!'],
   },
   {
     id: 'rafhy',
@@ -158,14 +158,14 @@ export const NPCS: Npc[] = [
       brows: 'level',
     },
     lines: [
-      'happy birthday shahir, 10 years old - good job man',
-      'Take care of yourself, good luck and keep at school',
-      'How is everything going? Did you collect all the cookies yet?',
+      'Happy birthday, Shahir! Ten years old. Good job, man.',
+      'Take care of yourself, good luck, and keep at it in school.',
+      "How's everything going? Did you collect all the cookies yet?",
     ],
   },
   {
     id: 'abu',
-    name: 'Abu / Dad',
+    name: 'Abu (Dad)',
     accent: '#e2734f',
     // The far side of the planet. Mumma is on the next corner over.
     position: corner(1, -1, -1),
@@ -188,9 +188,9 @@ export const NPCS: Npc[] = [
       brows: 'level',
     },
     lines: [
-      'Happy Birthday Shahir! Mashallah 10 years old',
-      'Love you beta - proud of you',
-      'Go find the cookies!',
+      'Happy birthday, Shahir! Mashallah, ten years old.',
+      'Love you, beta. Proud of you.',
+      'Now go and find the cookies!',
     ],
   },
   {
@@ -220,14 +220,14 @@ export const NPCS: Npc[] = [
       brows: 'level',
     },
     lines: [
-      'Hello Shahir, congratulations - Happy Birthday!',
-      "Okay I'll play some Roblox with you later",
+      'Hello, Shahir! Congratulations — happy birthday!',
+      "Okay, I'll play some Roblox with you later.",
       'Did you get all the cookies yet?',
     ],
   },
   {
     id: 'mumma',
-    name: 'Mumma / Mom',
+    name: 'Mumma (Mom)',
     accent: '#d8c9a8',
     // The far side of the planet, on the corner next to Abu.
     position: corner(-1, -1, -1),
@@ -251,8 +251,8 @@ export const NPCS: Npc[] = [
       brows: 'raised',
     },
     lines: [
-      'Happy Birthday Shahir! Love you beta',
-      "Congratualations - your a big boy now!",
+      'Happy birthday, Shahir! Love you, beta.',
+      "Congratulations — you're a big boy now!",
       'Everyone is here for you!',
     ],
   },
