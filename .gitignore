@@ -1,0 +1,21 @@
+# dependencies — Vercel runs `npm install` itself
+node_modules/
+
+# build output — Vercel runs `npm run build` itself
+dist/
+
+# local tooling
+.vite/
+*.log
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# Vercel CLI
+.vercel/
+
+# tsc -b incremental state
+*.tsbuildinfo

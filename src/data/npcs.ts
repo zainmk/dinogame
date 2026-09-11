@@ -91,7 +91,7 @@ export const NPCS: Npc[] = [
       'Assalamualaikum Shahir, Happy Birthday!',
       'Can you get me some water',
       'Have you seen my phone?',
-      'Pick up all your coins',
+      'Pick up all your cookies',
     ],
   },
   {
@@ -117,7 +117,7 @@ export const NPCS: Npc[] = [
     lines: [
       'happy birthday, shahir bhai!',
       'where is my toy shahir!',
-      'can i have some coins too!',
+      'can i have some cookies too!',
     ],
   },
   {
@@ -160,7 +160,7 @@ export const NPCS: Npc[] = [
     lines: [
       'happy birthday shahir, 10 years old - good job man',
       'Take care of yourself, good luck and keep at school',
-      'How is everything going? Did you collect all the coins yet?',
+      'How is everything going? Did you collect all the cookies yet?',
     ],
   },
   {
@@ -190,7 +190,7 @@ export const NPCS: Npc[] = [
     lines: [
       'Happy Birthday Shahir! Mashallah 10 years old',
       'Love you beta - proud of you',
-      'Go find the coins!',
+      'Go find the cookies!',
     ],
   },
   {
@@ -222,7 +222,7 @@ export const NPCS: Npc[] = [
     lines: [
       'Hello Shahir, congratulations - Happy Birthday!',
       "Okay I'll play some Roblox with you later",
-      'Did you get all the coins yet?',
+      'Did you get all the cookies yet?',
     ],
   },
   {
